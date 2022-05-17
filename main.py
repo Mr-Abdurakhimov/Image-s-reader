@@ -1,4 +1,5 @@
 from rich.prompt import Prompt
+from rich.console import Console
 import pytesseract
 from pathlib import Path
 from PIL import Image
@@ -8,9 +9,10 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Tesseract\tesseract.exe'
 
 
 def GetTextFromImage(path, language):
-    if Path(path).exists():
-        print(f"--> Your origin file: {Path(path).name}")
-        try:
+    try:
+        if Path(path).exists():
+            print(f"--> Your origin file: {Path(path).name}")
+
             with Image.open(path) as text:
                 outtext = pytesseract.image_to_string(text, lang=language)
             name = Path(path).stem
@@ -18,8 +20,8 @@ def GetTextFromImage(path, language):
             with open(f"{name}.txt", 'w', encoding='utf-8') as file:
                 file.write(outtext)
                 print(f"{name}.txt was successfully saved")
-        except:
-            raise Exception("Something went wrong")
+    except:
+        Console.print_exception()
 
 
 def main():
