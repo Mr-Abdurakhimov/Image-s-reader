@@ -1,3 +1,4 @@
+from rich.prompt import Prompt
 import pytesseract
 from pathlib import Path
 from PIL import Image
@@ -24,7 +25,7 @@ def GetTextFromImage(path, language):
 def main():
     tprint("Image's reader")
     file_path = input("Enter the path to your Image: ")
-    language = input("Choose the language: 'rus' or 'eng: ")  # the language of text in your image
+    language = Prompt.ask("Choose the language: ",choices=["eng","rus"],default="eng")
     GetTextFromImage(file_path, language)
 
 
